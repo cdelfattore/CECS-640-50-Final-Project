@@ -22,7 +22,7 @@
 					<td>Search for an item below.</td>
 				</tr>
 				<tr>
-					<td><input name="username" type="text" size="50" required></td>
+					<td><input name="searchTerm" type="text" size="50" required></td>
 				</tr>
 				<tr>
 					<td><input type="submit" value="Search"></td>

@@ -29,10 +29,12 @@ public class ItemServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession httpSes = request.getSession();
 		DatabaseAccess db = (DatabaseAccess) httpSes.getAttribute("dbInstance");
-		
 		System.out.println("user in item servlet: " + db.getUserInfo());
 		
 		//retrieve a list of the items
+		String searchTerm = request.getParameter("searchTerm");
+		db.searchForItems(searchTerm);
+		
 	}
 
 	/**
