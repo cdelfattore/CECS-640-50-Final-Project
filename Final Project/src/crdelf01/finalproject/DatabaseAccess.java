@@ -75,42 +75,23 @@ public class DatabaseAccess {
 		LinkedList<ItemBean> itemList = new LinkedList<ItemBean>();
 		try {
 			Statement st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			ResultSet rs = st.executeQuery("select * from item where name like '%" + searchTerm + "%'");
-			
+			ResultSet rs = st.executeQuery("select * from item where name like '%" + searchTerm + "%' or description like '%" + searchTerm + "%'");
+			 
 			while(rs.next()){
 				ItemBean item = new ItemBean();
 				item.setName(rs.getString("name"));
 				item.setPrice(rs.getDouble("price"));
 				item.setDescription(rs.getString("description"));
 				item.setItem_id(rs.getInt("item_id"));
-				
-				itemList.add(item);
-				
-				/*ResultSetMetaData rsmd = rs.getMetaData();
-        	    int columns = rsmd.getColumnCount();
-        	    ItemBean userRes = new ItemBean();
-        	    for (int x = 1; x <= columns; x++) {
-        	        //System.out.println(rsmd.getColumnName(x));
-        	        
-        	        if(rsmd.getColumnName(x).equals("NAME")){
-        	        	userRes.setName(rs.getString("NAME"));
-        	        }
-        	        else if(rsmd.getColumnName(x).equals("USERID")){
-        	        	userRes.setUserId(rs.getInt("USERID"));
-        	        }
 
-        	    }*/
-			} 
+				itemList.add(item);			
+			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		for(ItemBean item : itemList){
-			System.out.println(item);
-		}
-		
+
 		return itemList;
 	}
 	

@@ -1,6 +1,10 @@
 package crdelf01.finalproject;
 
 import java.io.IOException;
+import java.util.LinkedList;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,8 +37,14 @@ public class ItemServlet extends HttpServlet {
 		
 		//retrieve a list of the items
 		String searchTerm = request.getParameter("searchTerm");
-		db.searchForItems(searchTerm);
 		
+		LinkedList<ItemBean> itemList = db.searchForItems(searchTerm);
+		
+		request.setAttribute("itemList", itemList);
+		
+		ServletContext context = getServletContext();
+		RequestDispatcher dispatcher = context.getRequestDispatcher("/home.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	/**
