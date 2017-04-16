@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class LogIn
@@ -26,6 +27,7 @@ public class LogIn extends HttpServlet {
         super();
         
         database = new DatabaseAccess();
+        
         database.connectToDatabase();        
     }
 
@@ -33,8 +35,9 @@ public class LogIn extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		//Need to add the database instance to the session so it can be used by the other servlets
+		HttpSession httpSes = request.getSession();
+		httpSes.setAttribute("dbInstance", database);
 		
 		String userName = request.getParameter("username");
 		String password = request.getParameter("password");

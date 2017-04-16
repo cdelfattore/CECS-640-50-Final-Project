@@ -12,14 +12,23 @@
 			<li><a href="">Cart</a></li>
 			<li><a href="">Orders</a></li>
 			<!-- <li><a href="item.jsp">Items</a></li> -->
+			<li><a href="">Log Out</a></li>
 		</ul>
 
 		<div>Welcome to the shopping site!</div>
-		
-		<div>Search for an item below.</div>
-		
-		<form method="post" action="">
-		
+				
+		<form method="post" action="ItemServlet">
+			<table cellspacing="2">
+				<tr>
+					<td>Search for an item below.</td>
+				</tr>
+				<tr>
+					<td><input name="username" type="text" size="50" required></td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="Search"></td>
+				</tr>
+			</table>
 		</form>
 	</body>
 </html>

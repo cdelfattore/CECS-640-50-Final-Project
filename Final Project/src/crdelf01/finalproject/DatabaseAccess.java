@@ -9,6 +9,7 @@ import java.sql.Statement;
 public class DatabaseAccess {
 
 	public Connection dbConnection = null;
+	public UserBean user = null; //instance for logged on user.
 	
 	public void connectToDatabase(){
 		try {
@@ -45,6 +46,21 @@ public class DatabaseAccess {
 	public boolean verifyUser(String userName, String password) throws SQLException{
 		Statement st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		ResultSet rs = st.executeQuery("select name from user where name = '" + userName + "' and password = '" + password + "' fetch first 1 rows only");
-        return rs.isBeforeFirst();
+		boolean userInDb = rs.isBeforeFirst();
+		
+		System.out.println(userInDb);
+		/*If the user is in the dabase make an instance of the user object*/
+		if(userInDb){
+			user = new UserBean();
+		}
+		
+        return userInDb;
+	}
+	
+	public UserBean getUserInfo(){
+		System.out.println("getUserInfo method");
+		UserBean user = new UserBean();
+		
+		return user;
 	}
 }
