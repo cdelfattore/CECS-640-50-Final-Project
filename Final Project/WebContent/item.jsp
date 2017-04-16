@@ -7,6 +7,6 @@
 <title>Item page.</title>
 </head>
 <body>
-	<div>Display item information here.</div>
+	<div></div>
 </body>
 </html>
