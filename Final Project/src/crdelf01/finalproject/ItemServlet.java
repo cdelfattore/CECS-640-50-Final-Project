@@ -29,8 +29,7 @@ public class ItemServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession httpSes = request.getSession();
 		DatabaseAccess db = (DatabaseAccess) httpSes.getAttribute("dbInstance");
-		
-		db.getUserInfo();
+		System.out.println("user in item servlet: " + db.getUserInfo());
 	}
 
 	/**

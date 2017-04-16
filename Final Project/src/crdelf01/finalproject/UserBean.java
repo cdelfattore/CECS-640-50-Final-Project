@@ -6,7 +6,9 @@ public class UserBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String name;
+	private String first;
+	private String last;
+	private String username;
 	/*private String password;*/
 	private String email;
 	private String phone;
@@ -21,12 +23,28 @@ public class UserBean implements Serializable {
 		
 	}
 
-	public String getName() {
-		return name;
+	public String getFirst() {
+		return first;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirst(String first) {
+		this.first = first;
+	}
+
+	public String getLast() {
+		return last;
+	}
+
+	public void setLast(String last) {
+		this.last = last;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getEmail() {
@@ -83,6 +101,13 @@ public class UserBean implements Serializable {
 
 	public void setUserid(int userid) {
 		this.userid = userid;
+	}
+
+	@Override
+	public String toString() {
+		return "UserBean [first=" + first + ", last=" + last + ", username=" + username + ", email=" + email
+				+ ", phone=" + phone + ", street=" + street + ", city=" + city + ", state=" + state + ", zip=" + zip
+				+ ", userid=" + userid + "]";
 	}
 
 	

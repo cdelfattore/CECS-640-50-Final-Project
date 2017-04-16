@@ -45,14 +45,23 @@ public class DatabaseAccess {
 	
 	public boolean verifyUser(String userName, String password) throws SQLException{
 		Statement st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-		ResultSet rs = st.executeQuery("select name from user where name = '" + userName + "' and password = '" + password + "' fetch first 1 rows only");
+		ResultSet rs = st.executeQuery("select * from user where name = '" + userName + "' and password = '" + password + "' fetch first 1 rows only");
 		boolean userInDb = rs.isBeforeFirst();
 		
 		System.out.println(userInDb);
 		/*If the user is in the dabase make an instance of the user object*/
 		if(userInDb){
 			user = new UserBean();
+			System.out.println("user in verifyUser method: " + user);
+			
+			while(rs.next()){
+				user.setUsername((rs.getString("username")));
+				user.setFirst((rs.getString("first")));
+				user.setLast((rs.getString("last")));
+			}			
 		}
+		
+		System.out.println(user.toString());
 		
         return userInDb;
 	}
