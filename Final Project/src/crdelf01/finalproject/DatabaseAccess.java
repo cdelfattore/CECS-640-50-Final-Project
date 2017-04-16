@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class DatabaseAccess {
 
 	public Connection dbConnection = null;
-	public UserBean user = null; //instance for logged on user.
+	private UserBean user = new UserBean(); //instance for logged on user.
 	
 	public void connectToDatabase(){
 		try {
@@ -45,20 +45,23 @@ public class DatabaseAccess {
 	
 	public boolean verifyUser(String userName, String password) throws SQLException{
 		Statement st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-		ResultSet rs = st.executeQuery("select * from user where name = '" + userName + "' and password = '" + password + "' fetch first 1 rows only");
+		ResultSet rs = st.executeQuery("select * from user where username = '" + userName + "' and password = '" + password + "' fetch first 1 rows only");
 		boolean userInDb = rs.isBeforeFirst();
 		
-		System.out.println(userInDb);
 		/*If the user is in the dabase make an instance of the user object*/
 		if(userInDb){
-			user = new UserBean();
-			System.out.println("user in verifyUser method: " + user);
-			
 			while(rs.next()){
 				user.setUsername((rs.getString("username")));
 				user.setFirst((rs.getString("first")));
 				user.setLast((rs.getString("last")));
-			}			
+				user.setEmail(rs.getString("email"));
+				user.setPhone(rs.getString("phone"));
+				user.setStreet(rs.getString("street"));
+				user.setCity(rs.getString("city"));
+				user.setState(rs.getString("state"));
+				user.setZip(rs.getString("zip"));
+				user.setUserid(rs.getInt("userid"));
+			}
 		}
 		
 		System.out.println(user.toString());
@@ -67,9 +70,6 @@ public class DatabaseAccess {
 	}
 	
 	public UserBean getUserInfo(){
-		System.out.println("getUserInfo method");
-		UserBean user = new UserBean();
-		
 		return user;
 	}
 }

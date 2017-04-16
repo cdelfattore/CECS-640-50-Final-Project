@@ -11,7 +11,6 @@
 			<li><a href="home.jsp">Home</a></li>
 			<li><a href="">Cart</a></li>
 			<li><a href="">Orders</a></li>
-			<!-- <li><a href="item.jsp">Items</a></li> -->
 			<li><a href="">Log Out</a></li>
 		</ul>
 
@@ -30,5 +29,17 @@
 				</tr>
 			</table>
 		</form>
+		
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Price</th>
+				<th>Description</th>
+			</tr>
+		<%
+			/*Print the list of items in a table*/
+		%>
+		
+		</table>
 	</body>
 </html>
