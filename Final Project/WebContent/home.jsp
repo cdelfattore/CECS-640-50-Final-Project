@@ -43,6 +43,7 @@
    				 	<td>${item.name}</td>
    				 	<td>${item.price}</td>
    				 	<td>${item.description}</td>
+   				 	<td><a href="">View Item</a>
    				 </tr>
 			</c:forEach>
 		
