@@ -10,7 +10,7 @@
 	<body>
 		<ul style="margin-bottom:15px;">
 			<li><a href="home.jsp">Home</a></li>
-			<li><a href="">Cart</a></li>
+			<li><a href="cart.jsp">Cart</a></li>
 			<li><a href="">Orders</a></li>
 			<li><a href="">Log Out</a></li>
 		</ul>

@@ -6,8 +6,16 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>View your cart.</title>
+		<link rel="stylesheet" href="final_proj_stylesheet.css">
 	</head>
 	<body>
+		<ul style="margin-bottom:15px;">
+			<li><a href="home.jsp">Home</a></li>
+			<li><a href="cart.jsp">Cart</a></li>
+			<li><a href="">Orders</a></li>
+			<li><a href="">Log Out</a></li>
+		</ul>
+		
 		<h2>View your cart below.</h2>
 		<table cellpadding="3">
 			<thead>
@@ -29,6 +37,5 @@
 				</c:forEach>
 			</tbody>
 		</table>
-			
 	</body>
 </html>
