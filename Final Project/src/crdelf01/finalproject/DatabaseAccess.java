@@ -95,6 +95,26 @@ public class DatabaseAccess {
 		return itemList;
 	}
 	
+	public ItemBean getItemInfo(int item_id){
+		ItemBean item = new ItemBean();
+		try {
+			Statement st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ResultSet rs = st.executeQuery("select * from item where item_id = '" + item_id  + "'");
+			
+			while(rs.next()){
+				item.setName(rs.getString("name"));
+				item.setPrice(rs.getDouble("price"));
+				item.setDescription(rs.getString("description"));
+				item.setItem_id(rs.getInt("item_id"));			
+			}
+		}
+		catch (SQLException e){
+			
+		}
+		
+		return item;
+	}
+	
 	public UserBean getUserInfo(){
 		return user;
 	}

@@ -1,7 +1,6 @@
 package crdelf01.finalproject;
 
 import java.io.IOException;
-import java.util.LinkedList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -13,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class ItemServlet
+ * Servlet implementation class ViewItem
  */
-@WebServlet(description = "Class to allow retrieving information about items", urlPatterns = { "/ItemServlet" })
-public class ItemServlet extends HttpServlet {
+@WebServlet("/ViewItem")
+public class ViewItem extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ItemServlet() {
+    public ViewItem() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,20 +30,17 @@ public class ItemServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		HttpSession httpSes = request.getSession();
 		DatabaseAccess db = (DatabaseAccess) httpSes.getAttribute("dbInstance");
-		//System.out.println("user in item servlet: " + db.getUserInfo());
+		ItemBean item = db.getItemInfo(Integer.parseInt(request.getParameter("id")));
+		//System.out.println(item);
 		
-		//retrieve a list of the items
-		String searchTerm = request.getParameter("searchTerm");
-		
-		LinkedList<ItemBean> itemList = db.searchForItems(searchTerm);
-		
-		request.setAttribute("itemList", itemList);
-		
+		request.setAttribute("item", item);
 		ServletContext context = getServletContext();
-		RequestDispatcher dispatcher = context.getRequestDispatcher("/home.jsp");
+		RequestDispatcher dispatcher = context.getRequestDispatcher("/item.jsp");
 		dispatcher.forward(request, response);
+		
 	}
 
 	/**

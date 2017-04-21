@@ -18,35 +18,35 @@
 		<div>Welcome to the shopping site!</div>
 				
 		<form method="post" action="ItemServlet">
-			<table cellspacing="2">
+			<table>
 				<tr>
 					<td>Search for an item below.</td>
 				</tr>
 				<tr>
 					<td><input name="searchTerm" type="text" size="50" required></td>
-				</tr>
-				<tr>
 					<td><input type="submit" value="Search"></td>
 				</tr>
 			</table>
 		</form>
 		
-		<table>
-			<tr>
-				<th>Name</th>
-				<th>Price</th>
-				<th>Description</th>
-			</tr>
-			
-			<c:forEach items="${itemList}" var="item">
-   				 <tr>
-   				 	<td>${item.name}</td>
-   				 	<td>${item.price}</td>
-   				 	<td>${item.description}</td>
-   				 	<td><a href="">View Item</a>
-   				 </tr>
-			</c:forEach>
-		
+		<table cellpadding="3">
+			<thead>
+				<tr>
+					<th align="left">Name</th>
+					<th align="left">Description</th>
+					<th align="left">Price</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${itemList}" var="item">
+	   				 <tr>
+	   				 	<td>${item.name}</td>
+	   				 	<td>${item.description}</td>
+	   				 	<td>${item.price}</td>
+	   				 	<td><a href="ViewItem?id=${item.item_id}">View Item</a>
+	   				 </tr>
+				</c:forEach>
+			</tbody>
 		</table>
 	</body>
 </html>
