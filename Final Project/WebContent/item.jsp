@@ -5,11 +5,11 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Item page</title>
+		<title>${item.name}</title>
 		<link rel="stylesheet" href="final_proj_stylesheet.css">
 		<style>
 			.font_size {
-				font-size: 15pt;
+				font-size: 13pt;
 			}
 		</style>
 	</head>
@@ -23,9 +23,17 @@
 		
 		<div class="font_size">${item.name} - $${item.price}</div>
 		<div class="font_size">${item.description}</div>
-		<div><input style="margin-top:10px;margin-bottom:10px;" type="button" onclick="location.href=''" value="Add to Cart"/></div>
+		<div style="margin-top:10px;margin-bottom:10px;">
+			<form method="post" action="ShoppingCartServlet">
+				<input style="width:6%;" name="qty" type="number" required>
+				<input type="hidden" name="item_id" value="${item.item_id}" />
+				<input type="hidden" name="name" value="${item.name}" />
+				<input type="hidden" name="price" value="${item.price}" />
+				<input type="submit" value="Add to Cart"/>
+			</form>
+		</div>
 		<div>
-			<img src="pic/item_${item.item_id}.jpg">
+			<img src="pic/item_${item.item_id}.jpg"> 
 		</div>
 	</body>
 </html>
