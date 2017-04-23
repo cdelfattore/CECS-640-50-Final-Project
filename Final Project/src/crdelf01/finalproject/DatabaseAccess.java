@@ -147,12 +147,13 @@ public class DatabaseAccess {
 	}
 
 	public void createOrderLines(int order_id, HashMap<Integer,ShoppingCartItemBean> shopCart){
+		System.out.println("create  order lines");
 		try {
 			PreparedStatement ps = dbConnection.prepareStatement("insert into order_line(quantity, total, item_id, order_id) values (?, ?, ?, ?)");
 			
 			for(ShoppingCartItemBean item : shopCart.values()){
 				ps.setInt(1, item.getQuantity());
-				ps.setDouble(2, item.getPrice());
+				ps.setDouble(2, item.getPrice()); 
 				ps.setInt(3, item.getItem_id());
 				ps.setInt(4, order_id);
 				ps.addBatch();
