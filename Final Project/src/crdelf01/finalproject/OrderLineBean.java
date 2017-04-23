@@ -7,9 +7,11 @@ public class OrderLineBean implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private int quantity;
-	private double decimal;
+	private double total;
 	private int item_id;
 	private int order_id;
+	private String itemName;
+	private double itemPrice;
 	
 	public OrderLineBean(){
 		
@@ -23,12 +25,12 @@ public class OrderLineBean implements Serializable{
 		this.quantity = quantity;
 	}
 
-	public double getDecimal() {
-		return decimal;
+	public double getTotal() {
+		return total;
 	}
 
-	public void setDecimal(double decimal) {
-		this.decimal = decimal;
+	public void setTotal(double decimal) {
+		this.total = decimal;
 	}
 
 	public int getItem_id() {
@@ -46,15 +48,27 @@ public class OrderLineBean implements Serializable{
 	public void setOrder_id(int order_id) {
 		this.order_id = order_id;
 	}
+	
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public double getItemPrice() {
+		return itemPrice;
+	}
+
+	public void setItemPrice(double itemPrice) {
+		this.itemPrice = itemPrice;
+	}
 
 	@Override
 	public String toString() {
-		return "OrderLineBean [quantity=" + quantity + ", decimal=" + decimal + ", item_id=" + item_id + ", order_id="
+		return "OrderLineBean [quantity=" + quantity + ", total=" + total + ", item_id=" + item_id + ", order_id="
 				+ order_id + "]";
 	}
-	
-	
-	
-	
 
 }

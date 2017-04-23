@@ -1,7 +1,7 @@
 package crdelf01.finalproject;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -13,53 +13,38 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class CreateOrder
+ * Servlet implementation class ViewOrder
  */
-@WebServlet("/CreateOrder")
-public class CreateOrder extends HttpServlet {
+@WebServlet("/ViewOrder")
+public class ViewOrder extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateOrder() {
+    public ViewOrder() {
         super();
         // TODO Auto-generated constructor stub
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) 
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession httpSes = request.getSession();
 		DatabaseAccess db = (DatabaseAccess) httpSes.getAttribute("dbInstance");
 		
-		//create the order
-		int order_id = -1;
-		if(httpSes.getAttribute("grandTotal") != null){
-			order_id = db.createOrder(db.getUserInfo().getUserid(), (double)httpSes.getAttribute("grandTotal"));
-		}
-				
-		HashMap<Integer,ShoppingCartItemBean> shoppingCart = (HashMap<Integer,ShoppingCartItemBean>) httpSes.getAttribute("shoppingCart");
-		if(shoppingCart == null){
-			//System.out.println("shopping cart is null so create one");
-			shoppingCart = new HashMap<Integer,ShoppingCartItemBean>();
-		}
+		int order_id = (int)request.getAttribute("id");
 		
-		//create the order lines
-		if(order_id > -1 && shoppingCart.keySet().size() > 0){
-			db.createOrderLines(order_id, shoppingCart);
-		}
+		OrderBean order = db.getOrderInfo(order_id);
+		request.setAttribute("order", order);  
 		
-		//create a new shopping cart, the order was already placed.
-		shoppingCart = new HashMap<Integer,ShoppingCartItemBean>();
-		httpSes.setAttribute("shoppingCart", shoppingCart);
+		LinkedList<OrderLineBean> orderLines = db.getOrderLineInfo(order_id);
+		request.setAttribute("orderlines", orderLines);
 		
-		request.setAttribute("id", order_id);
 		ServletContext context = getServletContext();
-		RequestDispatcher dispatcher = context.getRequestDispatcher("/ViewOrder");
+		RequestDispatcher dispatcher = context.getRequestDispatcher("/view_order.jsp");
 		dispatcher.forward(request, response);
-		 
 	}
 
 	/**

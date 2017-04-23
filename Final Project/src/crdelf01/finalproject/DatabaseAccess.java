@@ -118,8 +118,52 @@ public class DatabaseAccess {
 		return item;
 	}
 	
+	//get information about the user
 	public UserBean getUserInfo(){
 		return user;
+	}
+	
+	//get information about a specific order
+	public OrderBean getOrderInfo(int order_id) {
+		OrderBean order = new OrderBean();
+		try {
+			Statement st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ResultSet rs = st.executeQuery("select * from order where order_id = '" + order_id  + "'");
+			
+			while(rs.next()){
+				order.setOrder_id(order_id);
+				order.setTotal(rs.getDouble("total"));
+				order.setUserid(rs.getInt("order_id"));
+			}
+		}
+		catch (SQLException e){
+			
+		}
+		
+		return order;
+	}
+	
+	public LinkedList<OrderLineBean> getOrderLineInfo(int order_id){
+		LinkedList<OrderLineBean> orderLines = new LinkedList<OrderLineBean>();
+		try {
+			Statement st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ResultSet rs = st.executeQuery("select i.name, i.price, ol.quantity, ol.total from order_line as ol inner join item as i on ol.item_id = i.item_id where order_id = '" + order_id  + "'");
+			
+			while(rs.next()){
+				OrderLineBean ol = new OrderLineBean();
+				ol.setItemName(rs.getString("name"));
+				ol.setItemPrice(rs.getDouble("price"));
+				ol.setQuantity(rs.getShort("quantity"));
+				ol.setTotal(rs.getDouble("total"));
+				
+				orderLines.add(ol);
+			}
+		}
+		catch (SQLException e){
+			
+		}
+		
+		return orderLines; 
 	}
 	
 	public int createOrder(int userid, double total){
@@ -147,13 +191,13 @@ public class DatabaseAccess {
 	}
 
 	public void createOrderLines(int order_id, HashMap<Integer,ShoppingCartItemBean> shopCart){
-		System.out.println("create  order lines");
+		
 		try {
 			PreparedStatement ps = dbConnection.prepareStatement("insert into order_line(quantity, total, item_id, order_id) values (?, ?, ?, ?)");
 			
 			for(ShoppingCartItemBean item : shopCart.values()){
 				ps.setInt(1, item.getQuantity());
-				ps.setDouble(2, item.getPrice()); 
+				ps.setDouble(2, item.getPrice() * item.getQuantity()); 
 				ps.setInt(3, item.getItem_id());
 				ps.setInt(4, order_id);
 				ps.addBatch();

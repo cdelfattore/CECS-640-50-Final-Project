@@ -38,8 +38,5 @@
 			</tbody>
 		</table>
 		<input type="button" onclick="window.location.href='checkout.jsp'" value="Checkout" />
-		<!-- <form action="CreateOrder" method="post">
-			<input type="submit" value="Checkout"/>
-		</form> -->
 	</body>
 </html>
