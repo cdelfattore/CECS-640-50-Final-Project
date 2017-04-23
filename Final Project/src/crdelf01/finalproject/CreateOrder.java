@@ -3,6 +3,8 @@ package crdelf01.finalproject;
 import java.io.IOException;
 import java.util.HashMap;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,21 +34,28 @@ public class CreateOrder extends HttpServlet {
 		HttpSession httpSes = request.getSession();
 		DatabaseAccess db = (DatabaseAccess) httpSes.getAttribute("dbInstance");
 		
-		
-		//first create the order
-		OrderBean order = null;
+		//create the order
+		int order_id = -1;
 		if(httpSes.getAttribute("grandTotal") != null){
-			order = db.createOrder(db.getUserInfo().getUserid(), (double)httpSes.getAttribute("grandTotal"));
+			order_id = db.createOrder(db.getUserInfo().getUserid(), (double)httpSes.getAttribute("grandTotal"));
 		}
 		
-		System.out.println(order);
+		System.out.println("order_id: " + order_id);
 		
-		/*HashMap<Integer,ShoppingCartItemBean> shoppingCart = (HashMap<Integer,ShoppingCartItemBean>) httpSes.getAttribute("shoppingCart");
+		HashMap<Integer,ShoppingCartItemBean> shoppingCart = (HashMap<Integer,ShoppingCartItemBean>) httpSes.getAttribute("shoppingCart");
 		if(shoppingCart == null){
-			//System.out.println("shopping cart is null so create one, will display blank on order page.");
+			//System.out.println("shopping cart is null so create one");
 			shoppingCart = new HashMap<Integer,ShoppingCartItemBean>();
-		}*/
+		}
 		
+		//create the order lines
+		if(order_id > -1 && shoppingCart.keySet().size() > 0){
+			db.createOrderLines(order_id, shoppingCart);
+		}
+		
+		ServletContext context = getServletContext();
+		RequestDispatcher dispatcher = context.getRequestDispatcher("/view_order.jsp");
+		dispatcher.forward(request, response);
 		
 	}
 

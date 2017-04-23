@@ -2,7 +2,9 @@ package crdelf01.finalproject;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
@@ -120,24 +122,47 @@ public class DatabaseAccess {
 		return user;
 	}
 	
-	public OrderBean createOrder(int userid, double total){
+	public int createOrder(int userid, double total){
 		//create the order
-		OrderBean order = new OrderBean();
+		int order_id = -1;
 		try {
-			Statement st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			ResultSet rs = st.executeQuery("insert into order(userid, total) values ('" + userid + "','" + total +"');");
+			PreparedStatement insertOrderSt = dbConnection.prepareStatement("insert into order(userid, total) values (?, ?)", Statement.RETURN_GENERATED_KEYS);
+			insertOrderSt.setInt(1, userid);
+			insertOrderSt.setDouble(2, total);
 			
-			while(rs.next()){
-				order.setOrder_id(rs.getInt("order_id"));
-				order.setTotal(rs.getDouble("total"));
-				order.setUserid(rs.getInt("userid"));
+			insertOrderSt.execute(); 
+			
+			ResultSet genKeys = insertOrderSt.getGeneratedKeys();			
+			while(genKeys.next()){
+				System.out.println(genKeys.getInt(1));
+				order_id = genKeys.getInt(1);
 			}
+		
+		} 
+		catch (SQLException e){
+			System.out.println(e);
+		}
+		
+		return order_id;
+	}
+
+	public void createOrderLines(int order_id, HashMap<Integer,ShoppingCartItemBean> shopCart){
+		try {
+			PreparedStatement ps = dbConnection.prepareStatement("insert into order_line(quantity, total, item_id, order_id) values (?, ?, ?, ?)");
+			
+			for(ShoppingCartItemBean item : shopCart.values()){
+				ps.setInt(1, item.getQuantity());
+				ps.setDouble(2, item.getPrice());
+				ps.setInt(3, item.getItem_id());
+				ps.setInt(4, order_id);
+				ps.addBatch();
+			}
+			
+			ps.executeBatch();
+			
 		}
 		catch (SQLException e){
-			
+			System.out.println(e);
 		}
-		
-		return order;
-		
 	}
 }
