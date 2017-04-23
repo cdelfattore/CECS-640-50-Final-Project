@@ -13,40 +13,37 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class ViewOrder
+ * Servlet implementation class ViewOrders
  */
-@WebServlet("/ViewOrder")
-public class ViewOrder extends HttpServlet {
+@WebServlet("/ViewOrders")
+public class ViewOrders extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ViewOrder() {
+    public ViewOrders() {
         super();
         // TODO Auto-generated constructor stub
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) 
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		HttpSession httpSes = request.getSession();
 		DatabaseAccess db = (DatabaseAccess) httpSes.getAttribute("dbInstance");
+		UserBean user = db.getUserInfo();
 		
-		int order_id = request.getAttribute("id") != null ? (int)request.getAttribute("id") : Integer.parseInt(request.getParameter("id"));
+		LinkedList<OrderBean> orderList = db.getOrders(user.getUserid());
+		httpSes.setAttribute("orderlist", orderList);
 		
-		OrderBean order = db.getOrderInfo(order_id);
-		httpSes.setAttribute("order", order);  
-		 
-		LinkedList<OrderLineBean> orderLines = db.getOrderLineInfo(order_id);
-		httpSes.setAttribute("orderlines", orderLines);
-		
-		response.sendRedirect("view_order.jsp"); 
-		
+		response.sendRedirect("orders.jsp");
 		/*ServletContext context = getServletContext();
-		RequestDispatcher dispatcher = context.getRequestDispatcher("/view_order.jsp");
+		RequestDispatcher dispatcher = context.getRequestDispatcher("/orders.jsp");
 		dispatcher.forward(request, response);*/
+
 	}
 
 	/**

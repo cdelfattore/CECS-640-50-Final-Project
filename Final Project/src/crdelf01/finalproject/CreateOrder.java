@@ -31,6 +31,8 @@ public class CreateOrder extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		System.out.println("url thing: " + ((HttpServletRequest)request).getRequestURL().toString());
 		HttpSession httpSes = request.getSession();
 		DatabaseAccess db = (DatabaseAccess) httpSes.getAttribute("dbInstance");
 		
@@ -54,6 +56,7 @@ public class CreateOrder extends HttpServlet {
 		//create a new shopping cart, the order was already placed.
 		shoppingCart = new HashMap<Integer,ShoppingCartItemBean>();
 		httpSes.setAttribute("shoppingCart", shoppingCart);
+		httpSes.setAttribute("grandTotal", 0.0); 
 		
 		request.setAttribute("id", order_id);
 		ServletContext context = getServletContext();

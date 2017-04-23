@@ -12,7 +12,7 @@
 		<ul style="margin-bottom:15px;">
 			<li><a href="home.jsp">Home</a></li>
 			<li><a href="cart.jsp">Cart</a></li>
-			<li><a href="">Orders</a></li>
+			<li><a href="ViewOrders">Orders</a></li>
 			<li><a href="">Log Out</a></li>
 		</ul>
 		
@@ -23,7 +23,6 @@
 					<th align="left">Name</th>
 					<th align="left">Price</th>
 					<th align="left">Quantity</th>
-					<!-- <th align="left">Total</th> -->
 				</tr>
 			</thead>
 			<tbody>
@@ -37,6 +36,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<input type="button" onclick="window.location.href='checkout.jsp'" value="Checkout" />
+		<!-- <input type="button" onclick="window.location.href='checkout.jsp'" value="Checkout" /> -->
+		<a href="checkout.jsp">Checkout</a>
 	</body>
 </html>

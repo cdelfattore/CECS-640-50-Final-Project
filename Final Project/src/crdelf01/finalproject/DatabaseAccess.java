@@ -166,6 +166,26 @@ public class DatabaseAccess {
 		return orderLines; 
 	}
 	
+	public LinkedList<OrderBean> getOrders(int userid){
+		LinkedList<OrderBean> orderList = new LinkedList<OrderBean>();
+		try {
+			Statement st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ResultSet rs = st.executeQuery("select * from order where userid = '" + userid + "'");
+			
+			while(rs.next()){
+				OrderBean order = new OrderBean();
+				order.setOrder_id(rs.getInt("order_id"));
+				order.setTotal(rs.getDouble("total"));
+				orderList.add(order);
+			}
+		}
+		catch (SQLException e){
+			
+		}
+		
+		return orderList;
+	}
+	
 	public int createOrder(int userid, double total){
 		//create the order
 		int order_id = -1;
