@@ -35,7 +35,7 @@ public class ShoppingCartServlet extends HttpServlet {
 		Integer item_id = Integer.parseInt(request.getParameter("item_id"));
 		String name = request.getParameter("name");
 		Double price = Double.parseDouble(request.getParameter("price"));
-				
+						
 		HttpSession httpSes = request.getSession();
 		//A shopping cart will be represented using the ShoppingCartBean
 		//first check to see if a shopping has been created
@@ -60,11 +60,15 @@ public class ShoppingCartServlet extends HttpServlet {
 		}
 
 		//add the shopping cart to the session object
-		httpSes.setAttribute("shoppingCart", shoppingCart);
+		httpSes.setAttribute("shoppingCart", shoppingCart); 
 		
-		//get the infomation about the items that will be used on the cart page
-		//request.setAttribute(,);
-		
+		//set the grand total of the shopping cart
+		Double grandTotal = 0.0; 
+		for(Integer i : shoppingCart.keySet()){
+			grandTotal += shoppingCart.get(i).getPrice() * shoppingCart.get(i).getQuantity();
+		}
+		httpSes.setAttribute("grandTotal", grandTotal); 
+				
 		ServletContext context = getServletContext();
 		RequestDispatcher dispatcher = context.getRequestDispatcher("/cart.jsp");
 		dispatcher.forward(request, response);

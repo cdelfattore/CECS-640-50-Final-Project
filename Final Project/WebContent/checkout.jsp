@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page session="true" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>View your cart.</title>
+		<title>Checkout</title>
 		<link rel="stylesheet" href="final_proj_stylesheet.css">
 	</head>
 	<body>
@@ -16,14 +16,14 @@
 			<li><a href="">Log Out</a></li>
 		</ul>
 		
-		<h2>View your cart below.</h2>
+		<h2>Review your order below</h2>
 		<table cellpadding="3">
 			<thead>
 				<tr>
 					<th align="left">Name</th>
 					<th align="left">Price</th>
 					<th align="left">Quantity</th>
-					<!-- <th align="left">Total</th> -->
+					<th align="left">Total</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -32,14 +32,17 @@
 						<td>${item.value.name}</td>
 						<td>${item.value.price}</td>
 						<td>${item.value.quantity}</td>
-						<!-- <td>$${item.value.quantity * item.value.price}</td> -->
+						<td>$${item.value.quantity * item.value.price}</td>
 	   				 </tr>
 				</c:forEach>
+				<tr>
+					<td></td><td></td><td>Grand Total:</td><td>$${sessionScope.grandTotal}</td>
+				</tr>
 			</tbody>
 		</table>
-		<input type="button" onclick="window.location.href='checkout.jsp'" value="Checkout" />
-		<!-- <form action="CreateOrder" method="post">
-			<input type="submit" value="Checkout"/>
-		</form> -->
+		<form action="CreateOrder" method="post">
+			<input type="submit" value="Place Order" />
+		</form>
+
 	</body>
 </html>

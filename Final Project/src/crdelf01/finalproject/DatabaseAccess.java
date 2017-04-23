@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 
@@ -66,7 +67,7 @@ public class DatabaseAccess {
 			}
 		}
 		
-		System.out.println(user.toString());
+		/*System.out.println(user.toString());*/
 		
         return userInDb;
 	}
@@ -117,5 +118,26 @@ public class DatabaseAccess {
 	
 	public UserBean getUserInfo(){
 		return user;
+	}
+	
+	public OrderBean createOrder(int userid, double total){
+		//create the order
+		OrderBean order = new OrderBean();
+		try {
+			Statement st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ResultSet rs = st.executeQuery("insert into order(userid, total) values ('" + userid + "','" + total +"');");
+			
+			while(rs.next()){
+				order.setOrder_id(rs.getInt("order_id"));
+				order.setTotal(rs.getDouble("total"));
+				order.setUserid(rs.getInt("userid"));
+			}
+		}
+		catch (SQLException e){
+			
+		}
+		
+		return order;
+		
 	}
 }
