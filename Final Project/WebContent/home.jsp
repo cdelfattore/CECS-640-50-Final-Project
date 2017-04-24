@@ -12,7 +12,7 @@
 			<li><a href="home.jsp">Home</a></li>
 			<li><a href="cart.jsp">Cart</a></li>
 			<li><a href="ViewOrders">Orders</a></li>
-			<li><a href="">Log Out</a></li>
+			<li><a href="LogOut">Log Out</a></li>
 		</ul>
 
 		<div>Welcome to the shopping site!</div>
