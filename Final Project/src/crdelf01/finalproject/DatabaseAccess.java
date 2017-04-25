@@ -147,14 +147,16 @@ public class DatabaseAccess {
 		LinkedList<OrderLineBean> orderLines = new LinkedList<OrderLineBean>();
 		try {
 			Statement st = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			ResultSet rs = st.executeQuery("select i.name, i.price, ol.quantity, ol.total from order_line as ol inner join item as i on ol.item_id = i.item_id where order_id = '" + order_id  + "'");
+			ResultSet rs = st.executeQuery("select i.name, i.price, ol.order_line_id, ol.quantity, ol.total, ol.order_id from order_line as ol inner join item as i on ol.item_id = i.item_id where order_id = '" + order_id  + "'");
 			
 			while(rs.next()){
 				OrderLineBean ol = new OrderLineBean();
 				ol.setItemName(rs.getString("name"));
+				ol.setOrder_line_id(rs.getInt("order_line_id"));
 				ol.setItemPrice(rs.getDouble("price"));
 				ol.setQuantity(rs.getShort("quantity"));
 				ol.setTotal(rs.getDouble("total"));
+				ol.setOrder_id(rs.getInt("order_id"));
 				
 				orderLines.add(ol);
 			}
@@ -229,5 +231,72 @@ public class DatabaseAccess {
 		catch (SQLException e){
 			System.out.println(e);
 		}
+	}
+	
+	public void updateOrderLines(LinkedList<OrderLineBean> orderLines) {
+		try {
+			PreparedStatement psOrderLine = dbConnection.prepareStatement("update order_line set quantity = ?, total = ? where order_line_id = ?");
+			
+			double orderTotal = 0.0;
+			for(OrderLineBean ol : orderLines){
+				//update the individual order lines
+				psOrderLine.setInt(1, ol.getQuantity());
+				psOrderLine.setDouble(2, ol.getTotal());
+				psOrderLine.setInt(3, ol.getOrder_line_id());
+				psOrderLine.addBatch();
+				
+				orderTotal = orderTotal + ol.getTotal();
+			}
+			
+			psOrderLine.executeBatch();
+			
+			System.out.println("orderTotal: " + orderTotal);
+			
+			PreparedStatement psOrder = dbConnection.prepareStatement("update order set total = ? where order_id = ?");
+			
+			psOrder.setDouble(1, orderTotal);
+			
+			System.out.println(orderLines.get(0).getOrder_id());
+			psOrder.setInt(2, orderLines.get(0).getOrder_id());
+						
+			psOrder.execute();
+		}
+		catch (SQLException e){
+			System.out.println(e); 
+		}		
+	}
+	
+	/*public void updateOrder(LinkedList<OrderLineBean> orderLines){
+		try {
+			System.out.println(orderLines);
+			PreparedStatement psOrder = dbConnection.prepareStatement("update order set total = ? where order_id = ?");
+			
+			double total = 0.0;
+			for(OrderLineBean ol : orderLines){
+				total += ol.getQuantity() * ol.getItemPrice();
+			}
+			System.out.println(total);
+			psOrder.setDouble(1, total);
+			psOrder.setInt(2, orderLines.get(0).getOrder_id());
+			psOrder.addBatch();
+			
+			psOrder.executeBatch();
+			
+		}
+		catch (SQLException e){
+			System.out.println(e); 
+		}
+	}*/
+	
+	public void deleteOrder(int order_id){
+		try {
+			PreparedStatement ps = dbConnection.prepareStatement("delete from order where order_id = " + order_id);
+			ps.execute();
+		}
+		
+		catch (SQLException e){
+			System.out.println(e);
+		}
+		
 	}
 }

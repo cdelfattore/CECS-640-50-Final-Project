@@ -12,6 +12,7 @@ public class OrderLineBean implements Serializable{
 	private int order_id;
 	private String itemName;
 	private double itemPrice;
+	private int order_line_id;
 	
 	public OrderLineBean(){
 		
@@ -65,10 +66,18 @@ public class OrderLineBean implements Serializable{
 		this.itemPrice = itemPrice;
 	}
 
+	public int getOrder_line_id() {
+		return order_line_id;
+	}
+
+	public void setOrder_line_id(int order_line_id) {
+		this.order_line_id = order_line_id;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderLineBean [quantity=" + quantity + ", total=" + total + ", item_id=" + item_id + ", order_id="
-				+ order_id + "]";
+				+ order_id + ", itemName=" + itemName + ", itemPrice=" + itemPrice + ", order_line_id=" + order_line_id
+				+ "]";
 	}
-
 }

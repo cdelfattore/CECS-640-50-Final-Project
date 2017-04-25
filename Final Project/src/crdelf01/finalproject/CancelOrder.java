@@ -1,10 +1,6 @@
 package crdelf01.finalproject;
 
 import java.io.IOException;
-import java.util.LinkedList;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,16 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class ViewOrders
+ * Servlet implementation class CancelOrder
  */
-@WebServlet("/ViewOrders")
-public class ViewOrders extends HttpServlet {
+@WebServlet("/CancelOrder")
+public class CancelOrder extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ViewOrders() {
+    public CancelOrder() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,15 +27,13 @@ public class ViewOrders extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		HttpSession httpSes = request.getSession();
 		DatabaseAccess db = (DatabaseAccess) httpSes.getAttribute("dbInstance");
-		UserBean user = db.getUserInfo();
 		
-		LinkedList<OrderBean> orderList = db.getOrders(user.getUserid());
-		httpSes.setAttribute("orderlist", orderList);
+		int order_id = Integer.parseInt(request.getParameter("id"));
+		db.deleteOrder(order_id);
 		
-		response.sendRedirect("orders.jsp");
+		response.sendRedirect("ViewOrders"); 
 	}
 
 	/**

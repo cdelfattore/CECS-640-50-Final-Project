@@ -43,10 +43,6 @@ public class ViewOrder extends HttpServlet {
 		httpSes.setAttribute("orderlines", orderLines);
 		
 		response.sendRedirect("view_order.jsp"); 
-		
-		/*ServletContext context = getServletContext();
-		RequestDispatcher dispatcher = context.getRequestDispatcher("/view_order.jsp");
-		dispatcher.forward(request, response);*/
 	}
 
 	/**

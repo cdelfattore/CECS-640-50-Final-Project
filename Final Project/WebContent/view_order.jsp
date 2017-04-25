@@ -20,7 +20,7 @@
 			<li><a href="home.jsp">Home</a></li>
 			<li><a href="cart.jsp">Cart</a></li>
 			<li><a href="ViewOrders">Orders</a></li>
-			<li><a href="">Log Out</a></li>
+			<li><a href="LogOut">Log Out</a></li>
 		</ul>
 		
 		<div class="header">Order Information</div>
@@ -40,14 +40,17 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${sessionScope.orderlines}" var="ol">
-	   				 <tr>
-						<td>${ol.itemName}</td>
-						<td>${ol.itemPrice}</td>
-						<td>${ol.quantity}</td>
-						<td>${ol.total}</td>
-	   				 </tr>
-				</c:forEach>
+				<form method="post" action="UpdateOrder">
+					<c:forEach items="${sessionScope.orderlines}" var="ol">
+		   				 <tr>
+							<td>${ol.itemName}</td>
+							<td>${ol.itemPrice}</td>
+							<td><input name="${ol.order_line_id}_qty" type="number" value="${ol.quantity}" style="width:40px;"/></td>
+							<td>${ol.total}</td>
+		   				 </tr>
+					</c:forEach>
+					<input type="submit" value="Update Order" />
+				</form>
 			</tbody>
 		</table>
 	</body>

@@ -13,7 +13,7 @@
 			<li><a href="home.jsp">Home</a></li>
 			<li><a href="cart.jsp">Cart</a></li>
 			<li><a href="ViewOrders">Orders</a></li>
-			<li><a href="">Log Out</a></li>
+			<li><a href="LogOut">Log Out</a></li>
 		</ul>
 		
 		<h3>Your past orders are listed below</h3>
@@ -30,7 +30,7 @@
 						<td>${order.order_id}</td>
 						<td>${order.total}</td>
 						<td><a href="ViewOrder?id=${order.order_id}">View or Modify Order</a></td>
-						<td><a href="">Cancel Order</a></td>
+						<td><a href="CancelOrder?id=${order.order_id}">Cancel Order</a></td>
 	   				 </tr>
 				</c:forEach>
 			</tbody>
