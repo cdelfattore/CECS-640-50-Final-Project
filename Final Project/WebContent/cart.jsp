@@ -13,7 +13,7 @@
 			<li><a href="home.jsp">Home</a></li>
 			<li><a href="cart.jsp">Cart</a></li>
 			<li><a href="ViewOrders">Orders</a></li>
-			<li><a href="ViewUser">Account Info</a>
+			<li><a href="user_info.jsp">Account Info</a>
 			<li><a href="LogOut">Log Out</a></li>
 		</ul>
 		
