@@ -30,7 +30,8 @@ public class LogOut extends HttpServlet {
 
 		HttpSession httpSes = request.getSession();
 		DatabaseAccess db = (DatabaseAccess) httpSes.getAttribute("dbInstance");
-		//db.disconnectFromDB();
+
+		httpSes.invalidate();
 		
 		response.sendRedirect("login.jsp"); 
 	}

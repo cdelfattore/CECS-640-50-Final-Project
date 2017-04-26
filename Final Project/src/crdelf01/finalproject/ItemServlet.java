@@ -32,19 +32,26 @@ public class ItemServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession httpSes = request.getSession();
+		
 		DatabaseAccess db = (DatabaseAccess) httpSes.getAttribute("dbInstance");
-		//System.out.println("user in item servlet: " + db.getUserInfo());
-		
-		//retrieve a list of the items
-		String searchTerm = request.getParameter("searchTerm");
-		
-		LinkedList<ItemBean> itemList = db.searchForItems(searchTerm);
-		
-		request.setAttribute("itemList", itemList);
-		
-		ServletContext context = getServletContext();
-		RequestDispatcher dispatcher = context.getRequestDispatcher("/home.jsp");
-		dispatcher.forward(request, response);
+
+		//if the db instance is null have the user re log in
+		if(db == null){
+			response.sendRedirect("login.jsp");
+		}
+		else {
+			//retrieve a list of the items
+			String searchTerm = request.getParameter("searchTerm");
+			
+			LinkedList<ItemBean> itemList = db.searchForItems(searchTerm);
+			
+			request.setAttribute("itemList", itemList);
+			
+			ServletContext context = getServletContext();
+			RequestDispatcher dispatcher = context.getRequestDispatcher("/home.jsp");
+			dispatcher.forward(request, response);
+			
+		}		
 	}
 
 	/**

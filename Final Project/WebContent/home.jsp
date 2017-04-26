@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="crdelf01.finalproject.DatabaseAccess" %>
+<%@ page import="crdelf01.finalproject.UserBean" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -8,6 +10,18 @@
 		<link rel="stylesheet" href="final_proj_stylesheet.css">
 	</head>
 	<body>
+		<%
+			HttpSession httpSes = request.getSession();
+			DatabaseAccess db = (DatabaseAccess) httpSes.getAttribute("dbInstance");
+			UserBean user = new UserBean();
+			//if the db instance is null have the user re log in
+			if(db == null){
+				response.sendRedirect("login.jsp");
+			}
+			else {
+				user = db.getUserInfo();	
+			}
+		%>	
 		<ul style="margin-bottom:15px;">
 			<li><a href="home.jsp">Home</a></li>
 			<li><a href="cart.jsp">Cart</a></li>

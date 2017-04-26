@@ -20,7 +20,15 @@
 		<%
 			HttpSession httpSes = request.getSession();
 			DatabaseAccess db = (DatabaseAccess) httpSes.getAttribute("dbInstance");
-			UserBean user = db.getUserInfo();
+			UserBean user = new UserBean();
+			//if the db instance is null have the user re log in
+			if(db == null){
+				response.sendRedirect("login.jsp");
+			}
+			else {
+				user = db.getUserInfo();	
+			}
+			
 		%>
 	
 		<h3>User Information</h3>

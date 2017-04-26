@@ -34,12 +34,19 @@ public class ViewOrders extends HttpServlet {
 
 		HttpSession httpSes = request.getSession();
 		DatabaseAccess db = (DatabaseAccess) httpSes.getAttribute("dbInstance");
-		UserBean user = db.getUserInfo();
 		
-		LinkedList<OrderBean> orderList = db.getOrders(user.getUserid());
-		httpSes.setAttribute("orderlist", orderList);
-		
-		response.sendRedirect("orders.jsp");
+		//if the db instance is null have the user re log in
+		if(db == null){
+			response.sendRedirect("login.jsp");
+		}
+		else {
+			UserBean user = db.getUserInfo();
+			
+			LinkedList<OrderBean> orderList = db.getOrders(user.getUserid());
+			httpSes.setAttribute("orderlist", orderList);
+			
+			response.sendRedirect("orders.jsp");
+		}
 	}
 
 	/**
