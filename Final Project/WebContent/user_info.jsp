@@ -32,6 +32,7 @@
 		%>
 	
 		<h3>User Information</h3>
+		<div>Username: <%= user.getUsername() != null ? user.getUsername() : "" %></div>
 		<div>First Name: <%= user.getFirst() != null ? user.getFirst() : "" %></div>
 		<div>Last Name: <%= user.getLast() != null ? user.getLast() : "" %></div>
 		<div>Street: <%= user.getStreet() != null ? user.getStreet() : "" %></div>
